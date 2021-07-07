@@ -14,7 +14,7 @@ public class WaveSpawner : MonoBehaviour
     bool ready = false;
     bool spawning = false;
 
-    private int wave_number = 0;
+    private int wave_index = 0;
 
     public void ReadyUp(){
         ready = true;
@@ -30,20 +30,27 @@ public class WaveSpawner : MonoBehaviour
     void Update()
     {
         if (ready == true){
+            wave_index++;
             ready = false;
-            spawning = true;
-            wave_number++;
-            SpawnWave();
+            StartCoroutine(SpawnWave());
         }
     }
 
-    void SpawnWave(){
+    IEnumerator SpawnWave(){
         
-        for (int i = 0; i < wave_number; i++)
+        if (spawning == false)
         {
-            SpawnEnemy();
+            spawning = true;
+            for (int i = 0; i < wave_index; i++)
+            {
+                SpawnEnemy();
+                yield return new WaitForSeconds(0.5f);
+            }
+            spawning = false;
+        }else
+        {
+            Debug.Log("Already Spawning!");
         }
-        spawning = false;
 
     }
 
