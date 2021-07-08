@@ -7,6 +7,9 @@ public class Projectile : MonoBehaviour
 
     private Transform target;
 
+    [Header("Projectile Attributes")]
+
+    public int damage = 1;
     public float speed = 70f;
 
     public void Seek(Transform _target)
@@ -39,6 +42,9 @@ public class Projectile : MonoBehaviour
 
     void HitTarget()
     {
+        GameObject enemy = (GameObject) target.gameObject;
+        EnemyStats stats = enemy.GetComponent<EnemyStats>();
+        stats.TakeDamage(damage);
         Debug.Log("We Hit Something!");
     }
 
